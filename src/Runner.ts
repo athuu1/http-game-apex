@@ -68,6 +68,8 @@ export class Runner {
 
   private updateSense(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
     let itemsFn, playersFn = undefined;
+
+
     if (vm.settings.research.zooming.enable) {
       itemsFn = vm.settings.general.sense.highlightItems.value
         ? this.sense.updateItems.bind(this.sense)
@@ -77,10 +79,10 @@ export class Runner {
         : this.sense.resetPlayers.bind(this.sense);
 
     } else {
-      itemsFn = vm.settings.general.sense.highlightItems.value && !localPlayer?.isZooming
+      itemsFn = vm.settings.general.sense.highlightItems.value && localPlayer?.isZooming
         ? this.sense.updateItems.bind(this.sense)
         : this.sense.resetItems.bind(this.sense);
-        playersFn = vm.settings.general.sense.highlightPlayers.value && !localPlayer?.isZooming
+      playersFn = vm.settings.general.sense.highlightPlayers.value && localPlayer?.isZooming
         ? this.sense.updatePlayers.bind(this.sense)
         : this.sense.resetPlayers.bind(this.sense);
 
