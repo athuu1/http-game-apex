@@ -7,8 +7,8 @@ export class Runner {
     private readonly map = new app.features.Map(canvas),
     private readonly radar = new app.features.Radar(canvas),
     private readonly recoil = new app.features.Recoil(),
-    private readonly sense = new app.features.Sense()) {}
-  
+    private readonly sense = new app.features.Sense()) { }
+
   static create() {
     const source = new Runner();
     source.attach();
@@ -44,14 +44,14 @@ export class Runner {
         break;
     }
   }
-  
+
   private updateMap(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
     if (vm.settings.general.map.showItems.value)
       this.map.renderItems(core.itemList.values(), vm.settings.itemSet);
     if (vm.settings.general.map.showPlayers.value && localPlayer)
       this.map.renderPlayers(localPlayer, core.playerList.values());
   }
-  
+
   private updateRadar(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
     if (vm.settings.general.radar.showItems.value && localPlayer)
       this.radar.renderItems(localPlayer, core.itemList.values(), vm.settings.itemSet);
@@ -60,19 +60,32 @@ export class Runner {
     if (vm.settings.general.radar.showPlayers.value && localPlayer)
       this.radar.renderPlayers(localPlayer, core.playerList.values());
   }
-  
+
   private updateResearch(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
     if (vm.settings.research.recoil.enable.value && localPlayer)
       this.recoil.update(core.buttonList, localPlayer, vm.settings.research.recoil.timer.value);
   }
 
   private updateSense(core: app.core.Core, vm: ui.MainViewModel, localPlayer?: app.core.Player) {
-    const itemsFn = vm.settings.general.sense.highlightItems.value
-      ? this.sense.updateItems.bind(this.sense)
-      : this.sense.resetItems.bind(this.sense);
-    const playersFn = vm.settings.general.sense.highlightPlayers.value
-      ? this.sense.updatePlayers.bind(this.sense)
-      : this.sense.resetPlayers.bind(this.sense);
+    let itemsFn, playersFn = undefined;
+    if (vm.settings.research.zooming.enable) {
+      itemsFn = vm.settings.general.sense.highlightItems.value
+        ? this.sense.updateItems.bind(this.sense)
+        : this.sense.resetItems.bind(this.sense);
+      playersFn = vm.settings.general.sense.highlightPlayers.value
+        ? this.sense.updatePlayers.bind(this.sense)
+        : this.sense.resetPlayers.bind(this.sense);
+
+    } else {
+      itemsFn = vm.settings.general.sense.highlightItems.value && !localPlayer?.isZooming
+        ? this.sense.updateItems.bind(this.sense)
+        : this.sense.resetItems.bind(this.sense);
+        playersFn = vm.settings.general.sense.highlightPlayers.value && !localPlayer?.isZooming
+        ? this.sense.updatePlayers.bind(this.sense)
+        : this.sense.resetPlayers.bind(this.sense);
+
+    }
+
     if (localPlayer) {
       itemsFn(localPlayer, core.itemList.values(), vm.settings.itemSet);
       playersFn(localPlayer, core.playerList.values());

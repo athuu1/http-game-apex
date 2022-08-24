@@ -11,5 +11,6 @@ export const MainView = ui.createView<{vm: app.MainViewModel}>(({vm}) => (
       {app.language.researchWarning}
     </ui.material.Alert>
     <app.RecoilView vm={vm.recoil} />
+    <app.ZoomingView vm={vm.zooming} />
   </React.Fragment>
 ));

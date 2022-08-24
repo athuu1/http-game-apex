@@ -8,7 +8,7 @@ export const RecoilView = ui.createView<{vm: app.RecoilViewModel}>(({vm}) => (
       {app.language.researchRecoil}
     </ui.material.Typography>
     <ui.material.FormControlLabel
-      label={app.language.researchRecoilEnable}
+      label={app.language.researchEnable}
       control={<ui.material.Switch
         onChange={x => vm.enable.change(x.target.checked)}
         checked={vm.enable.value} />} />
