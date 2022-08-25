@@ -79,10 +79,10 @@ export class Runner {
         : this.sense.resetPlayers.bind(this.sense);
 
     } else {
-      itemsFn = vm.settings.general.sense.highlightItems.value && localPlayer?.isZooming
+      itemsFn = vm.settings.general.sense.highlightItems.value && localPlayer?.isZooming?.value == 0
         ? this.sense.updateItems.bind(this.sense)
         : this.sense.resetItems.bind(this.sense);
-      playersFn = vm.settings.general.sense.highlightPlayers.value && localPlayer?.isZooming
+      playersFn = vm.settings.general.sense.highlightPlayers.value && localPlayer?.isZooming?.value == 0
         ? this.sense.updatePlayers.bind(this.sense)
         : this.sense.resetPlayers.bind(this.sense);
 

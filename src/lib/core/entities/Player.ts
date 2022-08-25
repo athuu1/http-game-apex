@@ -13,7 +13,7 @@ export class Player extends app.api.Adapter<app.api.Entity> {
     readonly vecPunchWeaponAngle = new app.Vector(app.offsets.player.vecPunchWeaponAngle),
     readonly viewAngle = new app.Vector(app.offsets.player.viewAngle),
     readonly bleedoutState = new app.UInt8(app.offsets.player.bleedoutState),
-    readonly isZooming = new app.UInt8(app.offsets.player.isZooming)) {
+    readonly isZooming = new app.UInt32(app.offsets.player.isZooming)) {
     super(new app.api.Entity(address, [localOrigin, glowEnable, glowThroughWalls, teamNum, name, lifeState, lastVisibleTime, vecPunchWeaponAngle, viewAngle, bleedoutState, isZooming], {enableUpdate: true}));
   }
   
